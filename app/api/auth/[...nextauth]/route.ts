@@ -3,9 +3,8 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import User from "@models/user";
 import { connectToDB } from "@utils/database";
-import { NextApiHandler } from "next";
 
-const handler : NextApiHandler = NextAuth({
+const handler = NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
@@ -29,7 +28,7 @@ const handler : NextApiHandler = NextAuth({
         // check if a user laready exists
         if (!userExist) {
           // if not create a new user
-          const user = await User.create({
+          await User.create({
             email: profile.email,
             username: profile.name.replace(" ", "").toLowerCase(),
             image: profile.picture,
