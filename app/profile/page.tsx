@@ -3,6 +3,9 @@ import {useState,useEffect} from 'react'
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import ProfileComponents from '@components/Profile';
+interface Post {
+  _id: string;
+}
 
 const Profile = () => {
     const router = useRouter();
@@ -18,7 +21,7 @@ const Profile = () => {
           await fetch(`/api/prompt/${post._id?.toString()}`,{
             method:'DELETE'
           })  
-          const filteredPost = myPosts.filter((p)=> p?._id !== post._id)
+          const filteredPost = myPosts.filter((p:Post)=> p?._id !== post._id)
           setMyPosts(filteredPost)
         } catch (error) {
          console.log(error)   
