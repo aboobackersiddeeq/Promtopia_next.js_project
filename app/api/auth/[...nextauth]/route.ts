@@ -3,6 +3,20 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import User from "@models/user";
 import { connectToDB } from "@utils/database";
+declare module "next-auth" {
+  /**
+   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   */
+  interface Session {
+    user: {
+      /** The user's postal address. */
+      name?: string | null | undefined;
+      email?: string | null | undefined;
+      image?: string | null | undefined;
+      id?: string | null | undefined;
+    }
+  }
+}
 
 const handler = NextAuth({
   providers: [
