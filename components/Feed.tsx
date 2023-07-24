@@ -2,21 +2,24 @@
 import { useState, useEffect } from "react";
 import PromptCard from "./PromptCard";
 type Posts = {
-  _id:string,
-  creator:{
-    userName:string
-  },
-  tag:string,
-  prompt:string
-}
+  _id: string;
+  creator: {
+    userName: string;
+  };
+  tag: string;
+  prompt: string;
+};
 type PromptCardListProps = {
-  data:Posts[],
-  handleTagClick:(tagName:string) => void
-}
-const PromptCardList:React.FC<PromptCardListProps> = ({ data, handleTagClick }) => {
+  data: Posts[];
+  handleTagClick: (tagName: string) => void;
+};
+const PromptCardList: React.FC<PromptCardListProps> = ({
+  data,
+  handleTagClick,
+}) => {
   return (
-    <div className='mt-16 prompt_layout'>
-      {data.map((post:Posts) => (
+    <div className="mt-16 prompt_layout">
+      {data.map((post: Posts) => (
         <PromptCard
           key={post._id}
           post={post}
@@ -28,14 +31,15 @@ const PromptCardList:React.FC<PromptCardListProps> = ({ data, handleTagClick }) 
 };
 
 const Feed = () => {
-  // serch text 
+  // serch text
   const [searchText, setSearchText] = useState("");
-  const [searchedResults, setSearchedResults] = useState([])
-  const [searchTimeout, setSearchTimeout] =useState<NodeJS.Timeout | null>(null);
+  const [searchedResults, setSearchedResults] = useState([]);
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
 
   const [posts, setPosts] = useState([]);
 
-  
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch("/api/prompt");
@@ -45,16 +49,15 @@ const Feed = () => {
     fetchData();
   }, []);
   const filterPrompts = (searchText: string) => {
-    const regux = new RegExp(searchText,"i");
-    // search 
-    return posts.filter((item:any)=>(
-      regux.test(item?.creator?.username) ||
-      regux.test(item.tag)||
-      regux.test(item.prompt)
-    ) 
-    )
-
-  }
+    const regux = new RegExp(searchText, "i");
+    // search
+    return posts.filter(
+      (item: any) =>
+        regux.test(item?.creator?.username) ||
+        regux.test(item.tag) ||
+        regux.test(item.prompt)
+    );
+  };
   const handleSearchChage = (e: any) => {
     if (searchTimeout) {
       clearTimeout(searchTimeout);
@@ -63,12 +66,12 @@ const Feed = () => {
 
     setSearchTimeout(
       setTimeout(() => {
-      const searchResult = filterPrompts(e.target.value);
-      setSearchedResults(searchResult);
-    },500)
+        const searchResult = filterPrompts(e.target.value);
+        setSearchedResults(searchResult);
+      }, 500)
     );
   };
-  const handleTagClick = (tagName:string) => {
+  const handleTagClick = (tagName: string) => {
     setSearchText(tagName);
     const searchResult = filterPrompts(tagName);
     setSearchedResults(searchResult);
@@ -87,11 +90,12 @@ const Feed = () => {
         />
       </form>
       {searchText.trim() ? (
-
-        <PromptCardList data={searchedResults} handleTagClick={handleTagClick} />
-      ):(
-
-      <PromptCardList data={posts} handleTagClick={handleTagClick} />
+        <PromptCardList
+          data={searchedResults}
+          handleTagClick={handleTagClick}
+        />
+      ) : (
+        <PromptCardList data={posts} handleTagClick={handleTagClick} />
       )}
     </section>
   );

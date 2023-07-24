@@ -4,18 +4,17 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 const Nav = () => {
-    const { data: session} = useSession();
+  const { data: session } = useSession();
   const [providers, setProvider]: any = useState(null);
   const [toggleDropdown, setTogleDropdown] = useState(false);
   useEffect(() => {
     const setProviders = async () => {
       const response = await getProviders();
-      console.log(response)
       setProvider(response);
     };
     setProviders();
   }, []);
-   
+
   return (
     <nav className="flex-between w-full mb-16 pt-3">
       <Link href="/" className="flex gap-2 flex-center">
@@ -30,7 +29,7 @@ const Nav = () => {
       </Link>
       {/* desktop Navigation  */}
       <div className="sm:flex hidden">
-        {session?.user? (
+        {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/create-prompt" className="black_btn">
               Create Post
@@ -44,7 +43,7 @@ const Nav = () => {
             </button>
             <Link href="/profile">
               <Image
-                src={session?.user?.image || '/fallback-image.jpg'}
+                src={session?.user?.image || "/fallback-image.jpg"}
                 alt="profile"
                 width={37}
                 height={37}
@@ -58,15 +57,15 @@ const Nav = () => {
               Object.values(providers).map((provider: any) => {
                 return (
                   <div key={provider.name}>
-                  <button
-                    type="button"
-                    key={provider.name}
-                    onClick={() => signIn(provider.id)}
-                    className="outline_btn"
+                    <button
+                      type="button"
+                      key={provider.name}
+                      onClick={() => signIn(provider.id)}
+                      className="outline_btn"
                     >
-                    Sign In
-                  </button>
-                    </div>
+                      Sign In
+                    </button>
+                  </div>
                 );
               })}
           </>
@@ -74,10 +73,10 @@ const Nav = () => {
       </div>
       {/* mobile Navigation  */}
       <div className="sm:hidden flex relative">
-        {session?.user? (
+        {session?.user ? (
           <div className="flex  ">
             <Image
-              src={session?.user?.image || '/fallback-image.jpg'}
+              src={session?.user?.image || "/fallback-image.jpg"}
               alt="profile"
               width={37}
               height={37}
@@ -119,15 +118,15 @@ const Nav = () => {
               Object.values(providers).map((provider: any) => {
                 return (
                   <div key={provider.name}>
-                  <button 
-                    type="button"
-                    key={provider.name}
-                    onClick={() => signIn(provider.id)}
-                    className="outline_btn"
+                    <button
+                      type="button"
+                      key={provider.name}
+                      onClick={() => signIn(provider.id)}
+                      className="outline_btn"
                     >
-                    Sign In
-                  </button>
-                    </div>
+                      Sign In
+                    </button>
+                  </div>
                 );
               })}
           </>
