@@ -9,6 +9,9 @@ export const metadata = {
 const RootLayout = ({ children }: any) => {
   return (
     <html lang="en">
+      <head>
+      <link rel="icon" href="favicon.svg" />
+      </head>
       <body>
         <Provider>
           <div className="main">
